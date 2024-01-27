@@ -10,6 +10,9 @@
     <style>
         body{
             padding-top:60px;
+            background-image: url('../static/bootstrap/img/cine.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
         }
         .tr-head{
             background:#dff0d8;
@@ -40,6 +43,12 @@
                         <a href=""> 
                             <i class="icon-user icone-white"></i>
                             Alumnos
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('cine') }}"> 
+                            <i class="icon-user icone-white"></i>
+                            Cine
                         </a>
                     </li>
                 </ul>
