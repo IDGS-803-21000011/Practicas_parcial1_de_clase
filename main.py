@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+import forms, math
 app = Flask(__name__)
 
 @app.route("/")
@@ -65,8 +66,19 @@ def resultadoCine():
                     resultado_multiplicacion = (boletos_enteros * 12) * .10
                 else: 
                     resultado_multiplicacion = boletos_enteros * 12
-
         return render_template("vistaCine.html", resultado=resultado_multiplicacion)
+
+@app.route("/distancias", methods=["GET", "POST"])
+def dist():
+    dist_form = forms.DistanciaFrom(request.form)
+    res = 0.0
+    if request.method == "POST":
+        x1 = dist_form.x1.data
+        x2 = dist_form.x2.data
+        y1 = dist_form.y1.data
+        y2 = dist_form.y2.data
+        res = math.sqrt(math.pow((x2 - x1), 2) + math.pow((y2 - y1), 2))
+    return render_template("distancias.html", form=dist_form, resultado = res)
 
 if __name__ == "__main__":
     app.run(debug=True)
