@@ -30,7 +30,7 @@
                             Inicio
                         </a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href=""> 
                             <i class="icon-user icone-white"></i>
                             Usuarios
@@ -40,12 +40,18 @@
                         <a href=""> 
                             <i class="icon-user icone-white"></i>
                             Alumnos
-                        </a>
+                        </a> -->
                     </li>
                     <li>
                         <a href="{{ url_for('cine') }}"> 
                             <i class="icon-user icone-white"></i>
                             Cine
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('resistencias') }}"> 
+                            <i class="icon-user icone-white"></i>
+                            Resistencias
                         </a>
                     </li>
                 </ul>
@@ -79,9 +85,8 @@
 -->
     </div>
 
-    {%block content%}
-
-    {%endblock%}
+    {% block content %}
+    {% endblock %}
 
 </body>
 </html>

@@ -80,5 +80,134 @@ def dist():
         res = math.sqrt(math.pow((x2 - x1), 2) + math.pow((y2 - y1), 2))
     return render_template("distancias.html", form=dist_form, resultado = res)
 
+@app.route("/resistencias", methods=["GET", "POST"])
+def resistencias():
+    dist_form = forms.ResistenciaForm(request.form)
+    v1 = 0
+    v2 = 0
+    v3 = 0
+    t = 0
+    h1 = ''
+    h2 = ''
+    h3 = ''
+    tc = ''
+    tolerancia = ''
+
+    if request.method == "POST":
+        banda1 = dist_form.banda1.data
+        banda2 = dist_form.banda2.data
+        banda3 = dist_form.banda3.data
+        tolerancia = dist_form.tolerancia.data
+
+        if banda1 == 'negro':
+            v1 = '0'
+            h1 = '#000000'
+        elif banda1 == 'cafe':
+            v1 = '1'
+            h1 = '#804000'
+        elif banda1 == 'rojo':
+            v1 = '2'
+            h1 = '#FF0000'
+        elif banda1 == 'naranja':
+            v1 = '3'
+            h1 = '#ff8000'
+        elif banda1 == 'amarillo':
+            v1 = '4'
+            h1 = '#FFFF00'
+        elif banda1 == 'verde':
+            v1 = '5'
+            h1 = '#008000'
+        elif banda1 == 'azul':
+            v1 = '6'
+            h1 = '#0000FF'
+        elif banda1 == 'violeta':
+            v1 = '7'
+            h1 = '#6F00FF'
+        elif banda1 == 'gris':
+            v1 = '8'
+            h1 = '#808080'
+        elif banda1 == 'blanco':
+            v1 = '9'
+            h1 = '#FFFFFF'
+
+        if banda2 == 'negro':
+            v2 = '0'
+            h2 = '#000000'
+        elif banda2 == 'cafe':
+            v2 = '1'
+            h2 = '#804000'
+        elif banda2 == 'rojo':
+            v2 = '2'
+            h2 = '#FF0000'
+        elif banda2 == 'naranja':
+            v2 = '3'
+            h2 = '#ff8000'
+        elif banda2 == 'amarillo':
+            v2 = '4'
+            h2 = '#FFFF00'
+        elif banda2 == 'verde':
+            v2 = '5'
+            h2 = '#008000'
+        elif banda2 == 'azul':
+            v2 = '6'
+            h2 = '#0000FF'
+        elif banda2 == 'violeta':
+            v2 = '7'
+            h2 = '#6F00FF'
+        elif banda2 == 'gris':
+            v2 = '8'
+            h2 = '#808080'
+        elif banda2 == 'blanco':
+            v2 = '9'
+            h2 = '#FFFFFF'
+
+        if banda3 == 'negro':
+            v3 = 1
+            h3 = '#000000'
+        elif banda3 == 'cafe':
+            v3 = 10
+            h3 = '#804000'
+        elif banda3 == 'rojo':
+            v3 = 100
+            h3 = '#FF0000'
+        elif banda3 == 'naranja':
+            v3 = 1000
+            h3 = '#ff8000'
+        elif banda3 == 'amarillo':
+            v3 = 10000
+            h3 = '#FFFF00'
+        elif banda3 == 'verde':
+            v3 = 100000
+            h3 = '#008000'
+        elif banda3 == 'azul':
+            v3 = 1000000
+            h3 = '#0000FF'
+        elif banda3 == 'violeta':
+            v3 = 10000000
+            h3 = '#6F00FF'
+        elif banda3 == 'gris':
+            v3 = 100000000
+            h3 = '#808080'
+        elif banda3 == 'blanco':
+            v3 = 1000000000
+            h3 = '#FFFFFF'
+
+    if tolerancia == 'dorado':
+        t = .05
+        tc = '#EABE3F'
+    elif tolerancia == 'plata':
+        t = .10
+        tc = '#e3e4e5'
+
+    valorStr = v1 + v2
+    valorInt = int(valorStr)
+    valor = valorInt * v3
+    valorMaximo = valor + (valor * t)
+    valorMinimo = valor - (valor * t)
+
+    return render_template("resistencias.html", form=dist_form, valor=valor, valorMaximo=valorMaximo, valorMinimo=valorMinimo, h1=h1, h2=h2, h3=h3, tc=tc)
+
 if __name__ == "__main__":
     app.run(debug=True)
+
+    # rcardielr@universidaddeleon.edu.mx

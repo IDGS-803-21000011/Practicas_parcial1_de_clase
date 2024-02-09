@@ -1,0 +1,53 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% import "_macros.html" as macros%}
+<div class="container">
+    <h1 class="text-center mb-5">Calcula los valores de una resistencia</h1>
+    <div class="row justify-content-center">
+        <form class="col-md-6" action="/resistencias" style="display: flex;" method="POST">
+            <div class="form-group">
+                {{ macros.render_field(form.banda1) }}
+            </div>
+            <div class="form-group">
+                {{ macros.render_field(form.banda2) }}
+            </div>
+            <div class="form-group">
+                {{ macros.render_field(form.banda3) }}
+            </div>
+            <div class="form-group">
+                {{ macros.render_field(form.tolerancia, style="list-style: none;") }}
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-sm">Calcular</button>
+            </div>
+        </form>
+    </div>
+    <br>
+    <div class="table-responsive">
+        <table class="table table-bordered text-center">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Color 1</th>
+                    <th>Color 2</th>
+                    <th>Color 3</th>
+                    <th>Tolerancia</th>
+                    <th>Valor</th>
+                    <th>Valor Máximo</th>
+                    <th>Valor Mínimo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="background-color: {{ h1 }}; color: black">{{ form.banda1.data }}</td>
+                    <td style="background-color: {{ h2 }}; color: black">{{ form.banda2.data }}</td>
+                    <td style="background-color: {{ h3 }}; color: black">{{ form.banda3.data }}</td>
+                    <td style="background-color: {{ tc }}; color: black">{{ form.tolerancia.data }}</td>
+                    <td>{{ valor }}</td>
+                    <td>{{ valorMaximo }}</td>
+                    <td>{{ valorMinimo }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
