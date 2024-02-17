@@ -1,0 +1,5 @@
+red: rojo
+green: verde
+yellow: amarillo
+purple: morado
+shoe: zapato

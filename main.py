@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 import forms, math
+from io import open
 app = Flask(__name__)
 
 @app.route("/")
@@ -206,6 +207,45 @@ def resistencias():
     valorMinimo = valor - (valor * t)
 
     return render_template("resistencias.html", form=dist_form, valor=valor, valorMaximo=valorMaximo, valorMinimo=valorMinimo, h1=h1, h2=h2, h3=h3, tc=tc)
+
+@app.route("/traductor", methods=["GET", "POST"])
+def traductor():
+    dist_form = forms.TraductorForm(request.form)
+    dist_form2 = forms.BuscarPalabraForm(request.form)
+
+    if request.method == 'POST' and dist_form.validate():
+        campo_ingles = dist_form.campo_ingles.data
+        campo_espanol = dist_form.campo_espanol.data
+
+        archivo_texto = open('diccionario.txt','a')
+        archivo_texto.write(f'\n{campo_ingles.lower()}: {campo_espanol.lower()}')
+        archivo_texto.close()
+        dist_form = forms.TraductorForm()
+
+    return render_template("traductor.html", form=dist_form, form2=dist_form2)
+
+@app.route("/buscar", methods=["GET", "POST"])
+def buscar():
+    dist_form = forms.TraductorForm(request.form)
+    dist_form2 = forms.BuscarPalabraForm(request.form)
+    archivo_texto = open('diccionario.txt', 'r')
+
+    if request.method == 'POST' and dist_form2.validate():
+        palabra = dist_form2.buscar_palabra.data.lower().strip()
+        direccion = dist_form2.direccion_traduccion.data
+
+        for linea in archivo_texto:
+            if ':' in linea:
+                palabra_dic, traduccion = linea.strip().split(':')
+                if direccion == 'ingles_espanol':
+                    if palabra_dic.strip().lower() == palabra:
+                        return render_template("traductor.html", traduccion=traduccion.strip(), form=dist_form, form2=dist_form2)
+                elif direccion == 'espanol_ingles':
+                    if traduccion.strip().lower() == palabra:
+                        return render_template("traductor.html", traduccion=palabra_dic.strip(), form=dist_form, form2=dist_form2)
+    archivo_texto.close()
+    return render_template("traductor.html", mensaje="La palabra no fue encontrada en el diccionario.", form=dist_form, form2=dist_form2)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

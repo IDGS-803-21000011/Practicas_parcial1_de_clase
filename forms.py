@@ -1,5 +1,6 @@
 from wtforms import Form
 from wtforms import StringField, SelectField, RadioField, EmailField, FloatField
+from wtforms import validators
 
 class DistanciaFrom(Form):
     x1 = FloatField('x1')
@@ -30,3 +31,20 @@ class ResistenciaForm(Form):
     banda2 = SelectField('Color 2', choices=opcionesBandas)
     banda3 = SelectField('Color 3', choices=opcionesBandas)
     tolerancia = RadioField('Tolerancia', choices=opcionesTolerancia)
+
+class TraductorForm(Form):
+    campo_ingles = StringField('Palabra Inglés', [
+        validators.DataRequired(message='El campo es requerido.'),
+        validators.length(min=1, max=15, message='Ingresa una palabra válida.')
+    ])
+    campo_espanol = StringField('Palabra Español', [
+        validators.DataRequired(message='El campo es requerido.'),
+        validators.length(min=1, max=15, message='Ingresa una palabra válida.')
+    ])
+
+class BuscarPalabraForm(Form):
+    buscar_palabra = StringField("Buscar palabra", [
+        validators.DataRequired(message='El campo es requerido.'),
+        validators.length(min=1, max=15, message='Ingresa una palabra válida.')
+    ])
+    direccion_traduccion = RadioField("Dirección de Traducción", choices=[('ingles_espanol', 'Inglés a Español'), ('espanol_ingles', 'Español a Inglés')], default='ingles_espanol')
